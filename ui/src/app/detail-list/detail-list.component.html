@@ -20,18 +20,14 @@
       [dtTrigger]="dtTrigger"  >
           <thead class="thead-light">
               <tr>
-                  <th>Category</th>
                   <th>KeyWord</th>
                   <th>Description</th>
-                  <th>Action</th>
-                  
               </tr>
           </thead>
           <tbody>
                <tr *ngFor="let detail of detaillist ">
-                  <td>{{detail.name}}</td>
-                  <td>{{detail.email}}</td>
-                  <td>{{detail.branch}}</td>
+                  <td>{{detail.keyword}}</td>
+                  <td>{{detail.description}}</td>
                 </tr> 
           </tbody><br>
       </table>

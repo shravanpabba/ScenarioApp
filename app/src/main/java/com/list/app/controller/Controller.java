@@ -43,12 +43,18 @@ public class Controller {
 	}
 
 	@PostMapping("descriptionByKeyWords")
-	public Map<String, List<Description>> descriptionByKeyWords(@RequestBody List<Keyword> keywordList) {
-		Map<String, List<Description>> response = new HashMap<>();
+	public List<Map<String, String>> descriptionByKeyWords(@RequestBody List<Keyword> keywordList) {
+		List<Map<String, String>> responseList = new ArrayList<>();
 		keywordList.stream().forEach(keyword -> {
-			response.put(keyword.getItemName(), descriptionRepository.findAllByKeyid(keyword.getId()));
+			List<Description> descriptionList = descriptionRepository.findAllByKeyid(keyword.getId());
+			descriptionList.stream().forEach(description -> {
+				Map<String,String> response = new HashMap<>();
+				response.put("keyword",keyword.getItemName());
+				response.put("description",description.getName());
+				responseList.add(response);
+			});
 		});
-		return response;
+		return responseList;
 	}
 
 }
