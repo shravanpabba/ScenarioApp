@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value="/api")
@@ -41,12 +43,12 @@ public class Controller {
 	}
 
 	@PostMapping("descriptionByKeyWords")
-	public List<Description> descriptionByKeyWords(@RequestBody List<Keyword> keywordList) {
-		List<Integer> keyIds = new ArrayList<>();
+	public Map<String, List<Description>> descriptionByKeyWords(@RequestBody List<Keyword> keywordList) {
+		Map<String, List<Description>> response = new HashMap<>();
 		keywordList.stream().forEach(keyword -> {
-			keyIds.add(keyword.getId());
+			response.put(keyword.getItemName(), descriptionRepository.findAllByKeyid(keyword.getId()));
 		});
-		return descriptionRepository.findAllByKeyidIn(keyIds);
+		return response;
 	}
 
 }

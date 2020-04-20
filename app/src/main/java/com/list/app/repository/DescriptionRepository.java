@@ -11,4 +11,5 @@ public interface DescriptionRepository extends CrudRepository<Description, Long>
 
 	List<Description> findById(int id);
 	List<Description> findAllByKeyidIn(List<Integer> keyIds);
+	List<Description> findAllByKeyid(Integer keyId);
 }
