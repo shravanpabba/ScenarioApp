@@ -3,7 +3,7 @@
       
           <p *ngFor="let item of items; let in = index">
             <mat-expansion-panel [(expanded)]="item.xpandStatus">
-              <mat-expansion-panel-header>
+              <mat-expansion-panel-header style="background-color: #f0f1ef;">
                 <mat-panel-title>{{item.title}} panel</mat-panel-title>
                 <!--<mat-panel-description>{{item.selectedItems}}</mat-panel-description>-->
               </mat-expansion-panel-header>
@@ -37,7 +37,9 @@
                 </div>
 
              </mat-expansion-panel>
+             <br/>
           </p>
+
           <ul class="navbar-nav">
             <li class="nav-item ">
               <a routerLink="view-detail" class="nav-link" class="btn btn-primary active" role="button" >Submit</a>

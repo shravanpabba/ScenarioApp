@@ -1,3 +1,27 @@
 p {
   font-family: Lato;
 }
+
+.navbar {
+    display: block;
+}
+
+.mat-expansion-panel-header {
+   font-weight: bold;
+}
+
+.mat-expansion-panel-body {
+    height: 200px;
+}
+
+.table td {
+    height: 100px;
+}
+
+element.style {
+    height: 60px;
+}
+
+.container-fluid {
+   margin-top: 50px;
+}

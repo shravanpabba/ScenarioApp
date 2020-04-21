@@ -20,7 +20,7 @@ export class AppComponent {
       this.detailService.getKeywords(this.items[0].selectedItems[1]).subscribe(data =>{
           this.items.push({id:2, title:'Items', xpandStatus:false, dataList:data, selectedItems: new Map<string, Array<any>>()});
       })
-    }else if(this.items[0].selectedItems[1].length==0 && this.items.length==2){
+    } else if(this.items[0].selectedItems[1].length==0 && this.items.length==2){
       this.items.pop();
     } else{
       this.sharedData.data = this.items[1].selectedItems[2];
