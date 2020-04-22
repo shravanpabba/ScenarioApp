@@ -79,7 +79,7 @@ module.exports = "p {\r\n  font-family: Lato;\r\n}\r\n\r\n.navbar {\r\n    displ
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "    <div  class=\"container-fluid\">\r\n      <nav class=\"navbar navbar-expand-sm bg-dark navbar-dark\">\r\n      \r\n          <p *ngFor=\"let item of items; let in = index\">\r\n            <mat-expansion-panel [(expanded)]=\"item.xpandStatus\">\r\n              <mat-expansion-panel-header style=\"background-color: #f0f1ef;\">\r\n                <mat-panel-title>{{item.title}} panel</mat-panel-title>\r\n                <!--<mat-panel-description>{{item.selectedItems}}</mat-panel-description>-->\r\n              </mat-expansion-panel-header>\r\n\r\n                <div class=\"panel panel-primary\">\r\n                  <div class=\"panel-heading\"> \r\n                  </div>\r\n                  <div class=\"panel-body\">\r\n                    <div class=\"table-responsive\">\r\n                      <table class=\"table table-striped\">\r\n                        <thead>\r\n                          <tr>\r\n                            <th>{{item.title}}</th>\r\n                          </tr>\r\n                        </thead>\r\n                        <tbody>\r\n                          <tr>\r\n                            <td>\r\n                              <angular2-multiselect  name=\"dropdown-{{item.id}}\" [data]=\"item.dataList\" [(ngModel)]=\"item.selectedItems[item.id]\" \r\n                              [settings]=\"dropdownSettings\" \r\n                              (onSelect)=\"onItemSelect($event, item.id)\" \r\n                              (onDeSelect)=\"OnItemDeSelect($event,item.id)\"\r\n                              (onSelectAll)=\"onSelectAll($event)\"\r\n                              (onDeSelectAll)=\"onDeSelectAll($event)\" disabled></angular2-multiselect>\r\n                            </td>\r\n                          </tr>\r\n                        </tbody>\r\n                      </table>\r\n                    </div>\r\n                  </div>\r\n                </div>\r\n\r\n             </mat-expansion-panel>\r\n             <br/>\r\n          </p>\r\n\r\n          <ul class=\"navbar-nav\">\r\n            <li class=\"nav-item \">\r\n              <a routerLink=\"view-detail\" class=\"nav-link\" class=\"btn btn-primary active\" role=\"button\" >Submit</a>\r\n            </li>         \r\n          </ul>\r\n       </nav>\r\n       <router-outlet></router-outlet>\r\n    </div>\r\n"
+module.exports = "    <div  class=\"container-fluid\">\r\n      <nav class=\"navbar navbar-expand-sm bg-dark navbar-dark\">\r\n      \r\n          <p *ngFor=\"let item of items; let in = index\">\r\n            <mat-expansion-panel [(expanded)]=\"item.xpandStatus\">\r\n              <mat-expansion-panel-header style=\"background-color: #f0f1ef;\">\r\n                <mat-panel-title>{{item.title}} panel</mat-panel-title>\r\n                <!--<mat-panel-description>{{item.selectedItems}}</mat-panel-description>-->\r\n              </mat-expansion-panel-header>\r\n\r\n                <div class=\"panel panel-primary\">\r\n                  <div class=\"panel-heading\"> \r\n                  </div>\r\n                  <div class=\"panel-body\">\r\n                    <div class=\"table-responsive\">\r\n                      <table class=\"table table-striped\">\r\n                        <thead>\r\n                          <tr>\r\n                            <th>{{item.title}}</th>\r\n                          </tr>\r\n                        </thead>\r\n                        <tbody>\r\n                          <tr>\r\n                            <td>\r\n                              <angular2-multiselect name=\"dropdown-{{item.id}}\" [data]=\"item.dataList\" [(ngModel)]=\"item.selectedItems[item.id]\" \r\n                              [settings]=\"dropdownSettings\" \r\n                              (onSelect)=\"onItemSelect($event, item.id)\" \r\n                              (onDeSelect)=\"OnItemDeSelect($event,item.id)\"\r\n                              (onSelectAll)=\"onSelectAll($event,item.id)\"\r\n                              (onDeSelectAll)=\"onDeSelectAll($event,item.id)\" disabled></angular2-multiselect>\r\n                            </td>\r\n                          </tr>\r\n                        </tbody>\r\n                      </table>\r\n                    </div>\r\n                  </div>\r\n                </div>\r\n\r\n             </mat-expansion-panel>\r\n             <br/>\r\n          </p>\r\n\r\n          <ul class=\"navbar-nav\">\r\n            <li class=\"nav-item \">\r\n              <a routerLink=\"view-detail\" class=\"nav-link\" class=\"btn btn-primary active\" role=\"button\" >Submit</a>\r\n            </li>         \r\n          </ul>\r\n       </nav>\r\n       <router-outlet></router-outlet>\r\n    </div>\r\n"
 
 /***/ }),
 
@@ -108,7 +108,7 @@ var AppComponent = /** @class */ (function () {
         this.title = 'FormSubmit';
         this.dropdownSettings = {};
         this.items = [{ id: 1, title: 'Categories', xpandStatus: false, dataList: [], selectedItems: new Map() }];
-        this.displayLogic = function () {
+        this.displayLogic = function (id) {
             var _this = this;
             if (this.items[0].selectedItems[1].length > 0 && this.items.length == 1) {
                 this.detailService.getKeywords(this.items[0].selectedItems[1]).subscribe(function (data) {
@@ -117,6 +117,12 @@ var AppComponent = /** @class */ (function () {
             }
             else if (this.items[0].selectedItems[1].length == 0 && this.items.length == 2) {
                 this.items.pop();
+            }
+            else if (id == 1 && this.items.length == 2) {
+                this.items[1].selectedItems = new Map();
+                this.detailService.getKeywords(this.items[0].selectedItems[1]).subscribe(function (data) {
+                    _this.items[1].dataList = data;
+                });
             }
             else {
                 this.sharedData.data = this.items[1].selectedItems[2];
@@ -140,17 +146,17 @@ var AppComponent = /** @class */ (function () {
         };
         //console.log(this.selectedCatItems)          
     };
-    AppComponent.prototype.onItemSelect = function (ii) {
-        this.displayLogic();
+    AppComponent.prototype.onItemSelect = function (ii, id) {
+        this.displayLogic(id);
     };
-    AppComponent.prototype.OnItemDeSelect = function (ii) {
-        this.displayLogic();
+    AppComponent.prototype.OnItemDeSelect = function (ii, id) {
+        this.displayLogic(id);
     };
-    AppComponent.prototype.onSelectAll = function (ii) {
-        this.displayLogic();
+    AppComponent.prototype.onSelectAll = function (ii, id) {
+        this.displayLogic(id);
     };
-    AppComponent.prototype.onDeSelectAll = function (ii) {
-        this.displayLogic();
+    AppComponent.prototype.onDeSelectAll = function (ii, id) {
+        this.displayLogic(id);
     };
     AppComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -250,7 +256,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"panel panel-default\">\r\n  <div class=\"panel-heading\">\r\n      <h1 style=\"text-align: center\">Details</h1><br>\r\n      <div class=\"row\" [hidden]=\"!deleteMessage\">\r\n           \r\n                <div class=\"col-sm-4\"></div>\r\n                <div class=\"col-sm-4\">\r\n                        <div class=\"alert alert-info alert-dismissible\">\r\n                                <button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>\r\n                                <strong>Detail Data Deleted</strong>\r\n                        </div>\r\n                </div>\r\n                <div class=\"col-sm-4\"></div>\r\n        </div>           \r\n    </div>\r\n\r\n  \r\n  <div class=\"panel-body\">\r\n      <table  class=\"table table-hover table-sm\" datatable [dtOptions]=\"dtOptions\"\r\n      [dtTrigger]=\"dtTrigger\"  >\r\n          <thead class=\"thead-light\">\r\n              <tr>\r\n                  <th>KeyWord</th>\r\n                  <th>Description</th>\r\n              </tr>\r\n          </thead>\r\n          <tbody>\r\n               <tr *ngFor=\"let detail of detaillist \">\r\n                  <td>{{detail.keyword}}</td>\r\n                  <td>{{detail.description}}</td>\r\n                </tr> \r\n          </tbody><br>\r\n      </table>\r\n  </div>\r\n</div> \r\n\r\n"
+module.exports = "<div class=\"panel panel-default\">\r\n  <div class=\"panel-heading\">\r\n      <h1 style=\"text-align: center\">Details</h1><br>\r\n      <div class=\"row\" [hidden]=\"!deleteMessage\">\r\n           \r\n                <div class=\"col-sm-4\"></div>\r\n                <div class=\"col-sm-4\">\r\n                        <div class=\"alert alert-info alert-dismissible\">\r\n                                <button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>\r\n                                <strong>Detail Data Deleted</strong>\r\n                        </div>\r\n                </div>\r\n                <div class=\"col-sm-4\"></div>\r\n        </div>           \r\n    </div>\r\n\r\n  \r\n  <div class=\"panel-body\">\r\n      <table  class=\"table table-hover table-sm\" datatable [dtOptions]=\"dtOptions\"\r\n      [dtTrigger]=\"dtTrigger\"  >\r\n          <thead class=\"thead-light\">\r\n              <tr>\r\n                  <th>SCENARIO_NAME</th>\r\n                  <th>SCENARIO_DESC</th>\r\n                  <th>REL_PATH</th>\r\n                  <th>FILE_NAME</th>\r\n                  <th>ACTIVE_SW</th>\r\n              </tr>\r\n          </thead>\r\n          <tbody>\r\n               <tr *ngFor=\"let detail of detaillist \">\r\n                  <td>{{detail.name}}</td>\r\n                  <td>{{detail.scenarioDesc}}</td>\r\n                  <td>{{detail.relPath}}</td>\r\n                  <td>{{detail.fileName}}</td>\r\n                  <td>{{detail.activeSW}}</td>\r\n                </tr> \r\n          </tbody><br>\r\n      </table>\r\n  </div>\r\n</div> \r\n\r\n"
 
 /***/ }),
 
@@ -344,7 +350,7 @@ var DetailService = /** @class */ (function () {
         return this.http.post("" + this.baseUrl + 'KeyWordsByCategories', categoriesList);
     };
     DetailService.prototype.getDescriptionList = function (keywordsList) {
-        return this.http.post("" + this.baseUrl + 'descriptionByKeyWords', keywordsList);
+        return this.http.post("" + this.baseUrl + 'scenarious', keywordsList);
     };
     DetailService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
@@ -451,7 +457,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\lenovo\Desktop\Project\Angular\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! C:\Users\kprade13\Desktop\GitHub\ListApp\ui\src\main.ts */"./src/main.ts");
 
 
 /***/ })
