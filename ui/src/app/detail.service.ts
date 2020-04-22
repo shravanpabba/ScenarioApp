@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 
 export class DetailService {
 
-  private baseUrl = 'http://localhost:8080/api/';
+  private baseUrl = '/api/';
 
   constructor(private http:HttpClient) { }
 
