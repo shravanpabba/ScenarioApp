@@ -21,7 +21,7 @@ export class DetailService {
   }
 
   getDescriptionList(keywordsList: object[]): Observable<any> {
-    return this.http.post(`${this.baseUrl}`+'descriptionByKeyWords', keywordsList);
+    return this.http.post(`${this.baseUrl}`+'scenarious', keywordsList);
   }
   
 }                                           

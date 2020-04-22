@@ -22,12 +22,12 @@
                         <tbody>
                           <tr>
                             <td>
-                              <angular2-multiselect  name="dropdown-{{item.id}}" [data]="item.dataList" [(ngModel)]="item.selectedItems[item.id]" 
+                              <angular2-multiselect name="dropdown-{{item.id}}" [data]="item.dataList" [(ngModel)]="item.selectedItems[item.id]" 
                               [settings]="dropdownSettings" 
                               (onSelect)="onItemSelect($event, item.id)" 
                               (onDeSelect)="OnItemDeSelect($event,item.id)"
-                              (onSelectAll)="onSelectAll($event)"
-                              (onDeSelectAll)="onDeSelectAll($event)" disabled></angular2-multiselect>
+                              (onSelectAll)="onSelectAll($event,item.id)"
+                              (onDeSelectAll)="onDeSelectAll($event,item.id)" disabled></angular2-multiselect>
                             </td>
                           </tr>
                         </tbody>

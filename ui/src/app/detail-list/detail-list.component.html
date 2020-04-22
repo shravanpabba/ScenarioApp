@@ -20,14 +20,20 @@
       [dtTrigger]="dtTrigger"  >
           <thead class="thead-light">
               <tr>
-                  <th>KeyWord</th>
-                  <th>Description</th>
+                  <th>SCENARIO_NAME</th>
+                  <th>SCENARIO_DESC</th>
+                  <th>REL_PATH</th>
+                  <th>FILE_NAME</th>
+                  <th>ACTIVE_SW</th>
               </tr>
           </thead>
           <tbody>
                <tr *ngFor="let detail of detaillist ">
-                  <td>{{detail.keyword}}</td>
-                  <td>{{detail.description}}</td>
+                  <td>{{detail.name}}</td>
+                  <td>{{detail.scenarioDesc}}</td>
+                  <td>{{detail.relPath}}</td>
+                  <td>{{detail.fileName}}</td>
+                  <td>{{detail.activeSW}}</td>
                 </tr> 
           </tbody><br>
       </table>
