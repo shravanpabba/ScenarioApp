@@ -1,6 +1,6 @@
     <div  class="container-fluid">
       <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-      
+
           <p *ngFor="let item of items; let in = index">
             <mat-expansion-panel [(expanded)]="item.xpandStatus">
               <mat-expansion-panel-header style="background-color: #f0f1ef;">
@@ -9,7 +9,7 @@
               </mat-expansion-panel-header>
 
                 <div class="panel panel-primary">
-                  <div class="panel-heading"> 
+                  <div class="panel-heading">
                   </div>
                   <div class="panel-body">
                     <div class="table-responsive">
@@ -22,9 +22,9 @@
                         <tbody>
                           <tr>
                             <td>
-                              <angular2-multiselect name="dropdown-{{item.id}}" [data]="item.dataList" [(ngModel)]="item.selectedItems[item.id]" 
-                              [settings]="dropdownSettings" 
-                              (onSelect)="onItemSelect($event, item.id)" 
+                              <angular2-multiselect name="dropdown-{{item.id}}" [data]="item.dataList" [(ngModel)]="item.selectedItems[item.id]"
+                              [settings]="dropdownSettings"
+                              (onSelect)="onItemSelect($event, item.id)"
                               (onDeSelect)="OnItemDeSelect($event,item.id)"
                               (onSelectAll)="onSelectAll($event,item.id)"
                               (onDeSelectAll)="onDeSelectAll($event,item.id)" disabled></angular2-multiselect>
@@ -42,8 +42,8 @@
 
           <ul class="navbar-nav">
             <li class="nav-item ">
-              <a routerLink="view-detail" class="nav-link" class="btn btn-primary active" role="button" >Submit</a>
-            </li>         
+              <a routerLink="view-detail" [class.disabled]="isDisabled" class="nav-link"  class="btn btn-primary active" role="button" >Submit</a>
+            </li>
           </ul>
        </nav>
        <router-outlet></router-outlet>

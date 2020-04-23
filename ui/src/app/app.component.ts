@@ -9,12 +9,13 @@ import {SharedData} from './shared.data'
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'FormSubmit';
+  title = 'Home';
 
   constructor(private detailService:DetailService, private sharedData: SharedData) { }
 
   dropdownSettings = {};
   items=[{id:1, title:'Categories', xpandStatus:false, dataList:[], selectedItems: new Map<string, Array<any>>()}];
+  isDisabled = true;
   displayLogic = function(id){
     if(this.items[0].selectedItems[1].length >0 && this.items.length==1){
       this.detailService.getKeywords(this.items[0].selectedItems[1]).subscribe(data =>{
@@ -22,35 +23,32 @@ export class AppComponent {
       })
     } else if(this.items[0].selectedItems[1].length==0 && this.items.length==2){
       this.items.pop();
+      this.isDisabled = true;
     } else if( id==1 && this.items.length==2 ){
       this.items[1].selectedItems = new Map<string, Array<any>>();
       this.detailService.getKeywords(this.items[0].selectedItems[1]).subscribe(data =>{
         this.items[1].dataList = data;
       })
-    } else{
+    } else if(id==2 && this.items[1].selectedItems[2].length>0){
+      this.isDisabled = false;
       this.sharedData.data = this.items[1].selectedItems[2];
     }
   };
   ngOnInit(){
-      //this.selectedCatItems = new Map<string, Array<any>>();
       this.items
       this.detailService.getCategories().subscribe(data =>{
           this.items[0].dataList = data;
       })
 
-      this.dropdownSettings = { 
-                                  singleSelection: false, 
+      this.dropdownSettings = {
+                                  singleSelection: false,
                                   text:"Select",
                                   selectAllText:'Select All',
                                   unSelectAllText:'UnSelect All',
                                   enableSearchFilter: true,
                                   classes:"myclass custom-class"
-      };  
-
-      //console.log(this.selectedCatItems)          
+      };
     }
-
-    
 
     onItemSelect(ii:any, id){
        this.displayLogic(id);

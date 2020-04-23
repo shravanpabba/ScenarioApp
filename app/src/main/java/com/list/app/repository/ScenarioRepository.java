@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface ScenarioRepository extends CrudRepository<Scenarios, Long> {
 
-	List<Scenarios> findAllById(int id);
+	List<Scenarios> findAllByIdIn(List<Integer> id);
 }

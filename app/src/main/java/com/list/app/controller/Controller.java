@@ -54,13 +54,11 @@ public class Controller {
 
 	@PostMapping("scenarious")
 	public List<Scenarios> descriptionByKeyWords(@RequestBody List<Keyword> keywordList) {
-		List<Scenarios> responseList = new ArrayList<>();
 		List<Integer> keywordIdList = keywordList.stream().map(Keyword::getId).collect(Collectors.toList());
 		List<ScenarioKeyword> scenarioKeywordList = scenarioKeyWordRepository
-				.findByScenarioKeywordIdIn(keywordIdList);
-		scenarioKeywordList.stream().forEach(
-				scenarioKeyword -> responseList.addAll(scenarioRepository.findAllById(scenarioKeyword.getScenarioId())));
-		return responseList;
+				.findAllByKeyWordIdIn(keywordIdList);
+		List<Integer> scenarioIdList = scenarioKeywordList.stream().map(ScenarioKeyword::getScenarioId).collect(Collectors.toList());
+		return scenarioRepository.findAllByIdIn(scenarioIdList);
 	}
 
 }

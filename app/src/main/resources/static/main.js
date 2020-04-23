@@ -50,7 +50,7 @@ var AppRoutingModule = /** @class */ (function () {
     }
     AppRoutingModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
-            imports: [_angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"].forRoot(routes)],
+            imports: [_angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"].forRoot(routes, { onSameUrlNavigation: 'reload' })],
             exports: [_angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"]]
         })
     ], AppRoutingModule);
@@ -79,7 +79,7 @@ module.exports = "p {\r\n  font-family: Lato;\r\n}\r\n\r\n.navbar {\r\n    displ
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "    <div  class=\"container-fluid\">\r\n      <nav class=\"navbar navbar-expand-sm bg-dark navbar-dark\">\r\n      \r\n          <p *ngFor=\"let item of items; let in = index\">\r\n            <mat-expansion-panel [(expanded)]=\"item.xpandStatus\">\r\n              <mat-expansion-panel-header style=\"background-color: #f0f1ef;\">\r\n                <mat-panel-title>{{item.title}} panel</mat-panel-title>\r\n                <!--<mat-panel-description>{{item.selectedItems}}</mat-panel-description>-->\r\n              </mat-expansion-panel-header>\r\n\r\n                <div class=\"panel panel-primary\">\r\n                  <div class=\"panel-heading\"> \r\n                  </div>\r\n                  <div class=\"panel-body\">\r\n                    <div class=\"table-responsive\">\r\n                      <table class=\"table table-striped\">\r\n                        <thead>\r\n                          <tr>\r\n                            <th>{{item.title}}</th>\r\n                          </tr>\r\n                        </thead>\r\n                        <tbody>\r\n                          <tr>\r\n                            <td>\r\n                              <angular2-multiselect name=\"dropdown-{{item.id}}\" [data]=\"item.dataList\" [(ngModel)]=\"item.selectedItems[item.id]\" \r\n                              [settings]=\"dropdownSettings\" \r\n                              (onSelect)=\"onItemSelect($event, item.id)\" \r\n                              (onDeSelect)=\"OnItemDeSelect($event,item.id)\"\r\n                              (onSelectAll)=\"onSelectAll($event,item.id)\"\r\n                              (onDeSelectAll)=\"onDeSelectAll($event,item.id)\" disabled></angular2-multiselect>\r\n                            </td>\r\n                          </tr>\r\n                        </tbody>\r\n                      </table>\r\n                    </div>\r\n                  </div>\r\n                </div>\r\n\r\n             </mat-expansion-panel>\r\n             <br/>\r\n          </p>\r\n\r\n          <ul class=\"navbar-nav\">\r\n            <li class=\"nav-item \">\r\n              <a routerLink=\"view-detail\" class=\"nav-link\" class=\"btn btn-primary active\" role=\"button\" >Submit</a>\r\n            </li>         \r\n          </ul>\r\n       </nav>\r\n       <router-outlet></router-outlet>\r\n    </div>\r\n"
+module.exports = "    <div  class=\"container-fluid\">\r\n      <nav class=\"navbar navbar-expand-sm bg-dark navbar-dark\">\r\n\r\n          <p *ngFor=\"let item of items; let in = index\">\r\n            <mat-expansion-panel [(expanded)]=\"item.xpandStatus\">\r\n              <mat-expansion-panel-header style=\"background-color: #f0f1ef;\">\r\n                <mat-panel-title>{{item.title}} panel</mat-panel-title>\r\n                <!--<mat-panel-description>{{item.selectedItems}}</mat-panel-description>-->\r\n              </mat-expansion-panel-header>\r\n\r\n                <div class=\"panel panel-primary\">\r\n                  <div class=\"panel-heading\">\r\n                  </div>\r\n                  <div class=\"panel-body\">\r\n                    <div class=\"table-responsive\">\r\n                      <table class=\"table table-striped\">\r\n                        <thead>\r\n                          <tr>\r\n                            <th>{{item.title}}</th>\r\n                          </tr>\r\n                        </thead>\r\n                        <tbody>\r\n                          <tr>\r\n                            <td>\r\n                              <angular2-multiselect name=\"dropdown-{{item.id}}\" [data]=\"item.dataList\" [(ngModel)]=\"item.selectedItems[item.id]\"\r\n                              [settings]=\"dropdownSettings\"\r\n                              (onSelect)=\"onItemSelect($event, item.id)\"\r\n                              (onDeSelect)=\"OnItemDeSelect($event,item.id)\"\r\n                              (onSelectAll)=\"onSelectAll($event,item.id)\"\r\n                              (onDeSelectAll)=\"onDeSelectAll($event,item.id)\" disabled></angular2-multiselect>\r\n                            </td>\r\n                          </tr>\r\n                        </tbody>\r\n                      </table>\r\n                    </div>\r\n                  </div>\r\n                </div>\r\n\r\n             </mat-expansion-panel>\r\n             <br/>\r\n          </p>\r\n\r\n          <ul class=\"navbar-nav\">\r\n            <li class=\"nav-item \">\r\n              <a routerLink=\"view-detail\" [class.disabled]=\"isDisabled\" class=\"nav-link\"  class=\"btn btn-primary active\" role=\"button\" >Submit</a>\r\n            </li>\r\n          </ul>\r\n       </nav>\r\n       <router-outlet></router-outlet>\r\n    </div>\r\n"
 
 /***/ }),
 
@@ -105,9 +105,10 @@ var AppComponent = /** @class */ (function () {
     function AppComponent(detailService, sharedData) {
         this.detailService = detailService;
         this.sharedData = sharedData;
-        this.title = 'FormSubmit';
+        this.title = 'Home';
         this.dropdownSettings = {};
         this.items = [{ id: 1, title: 'Categories', xpandStatus: false, dataList: [], selectedItems: new Map() }];
+        this.isDisabled = true;
         this.displayLogic = function (id) {
             var _this = this;
             if (this.items[0].selectedItems[1].length > 0 && this.items.length == 1) {
@@ -117,6 +118,7 @@ var AppComponent = /** @class */ (function () {
             }
             else if (this.items[0].selectedItems[1].length == 0 && this.items.length == 2) {
                 this.items.pop();
+                this.isDisabled = true;
             }
             else if (id == 1 && this.items.length == 2) {
                 this.items[1].selectedItems = new Map();
@@ -124,14 +126,14 @@ var AppComponent = /** @class */ (function () {
                     _this.items[1].dataList = data;
                 });
             }
-            else {
+            else if (id == 2 && this.items[1].selectedItems[2].length > 0) {
+                this.isDisabled = false;
                 this.sharedData.data = this.items[1].selectedItems[2];
             }
         };
     }
     AppComponent.prototype.ngOnInit = function () {
         var _this = this;
-        //this.selectedCatItems = new Map<string, Array<any>>();
         this.items;
         this.detailService.getCategories().subscribe(function (data) {
             _this.items[0].dataList = data;
@@ -144,7 +146,6 @@ var AppComponent = /** @class */ (function () {
             enableSearchFilter: true,
             classes: "myclass custom-class"
         };
-        //console.log(this.selectedCatItems)          
     };
     AppComponent.prototype.onItemSelect = function (ii, id) {
         this.displayLogic(id);
@@ -457,7 +458,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\kprade13\Desktop\GitHub\ListApp\ui\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! C:\Users\lenovo\Desktop\Project\GitHub\ListApp\ui\src\main.ts */"./src/main.ts");
 
 
 /***/ })
