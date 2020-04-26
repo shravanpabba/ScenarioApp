@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="Oracle - @USMUM0216.us.deloitte.com" uuid="87b9002f-baf6-468b-8400-f2dfc4f85c97">
+      <driver-ref>oracle</driver-ref>
+      <synchronize>true</synchronize>
+      <auto-commit>false</auto-commit>
+      <jdbc-driver>oracle.jdbc.OracleDriver</jdbc-driver>
+      <jdbc-url>jdbc:oracle:thin:@USMUM0216.us.deloitte.com:1521:IEGOLD1</jdbc-url>
+    </data-source>
+  </component>
+</project>

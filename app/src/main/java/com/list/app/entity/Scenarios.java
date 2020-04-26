@@ -1,6 +1,10 @@
 package com.list.app.entity;
 
+
+
 import java.sql.Clob;
+
+//import oracle.sql.CLOB;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

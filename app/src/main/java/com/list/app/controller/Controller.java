@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.list.app.model.ScenarioModel;
+import com.list.app.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,12 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.list.app.entity.Category;
 import com.list.app.entity.Keyword;
-import com.list.app.entity.ScenarioKeyword;
-import com.list.app.entity.Scenarios;
-import com.list.app.repository.CategoryRepository;
-import com.list.app.repository.KeyWordRepository;
-import com.list.app.repository.ScenarioKeyWordRepository;
-import com.list.app.repository.ScenarioRepository;
 
 @RestController
 @RequestMapping(value = "/api")
@@ -38,6 +34,9 @@ public class Controller {
 	@Autowired
 	private ScenarioKeyWordRepository scenarioKeyWordRepository;
 
+	@Autowired
+	private JdbcRepository jdbcRepository;
+
 	@GetMapping("categoriesList")
 	public List<Category> allCategories() {
 		return categoryRepository.findAll();
@@ -53,12 +52,11 @@ public class Controller {
 	}
 
 	@PostMapping("scenarious")
-	public List<Scenarios> descriptionByKeyWords(@RequestBody List<Keyword> keywordList) {
+	public List<ScenarioModel> descriptionByKeyWords(@RequestBody List<Keyword> keywordList) {
 		List<Integer> keywordIdList = keywordList.stream().map(Keyword::getId).collect(Collectors.toList());
-		List<ScenarioKeyword> scenarioKeywordList = scenarioKeyWordRepository
-				.findAllByKeyWordIdIn(keywordIdList);
-		List<Integer> scenarioIdList = scenarioKeywordList.stream().map(ScenarioKeyword::getScenarioId).collect(Collectors.toList());
-		return scenarioRepository.findAllByIdIn(scenarioIdList);
+		return jdbcRepository.getAllScenarios(keywordIdList);
+
 	}
+
 
 }

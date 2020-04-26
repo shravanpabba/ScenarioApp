@@ -22,18 +22,18 @@
               <tr>
                   <th>SCENARIO_NAME</th>
                   <th>SCENARIO_DESC</th>
-                  <th>REL_PATH</th>
                   <th>FILE_NAME</th>
-                  <th>ACTIVE_SW</th>
+                  <th>SCENARIO_PARAMS</th>
+                  <th>OPTIONS</th>
               </tr>
           </thead>
           <tbody>
                <tr *ngFor="let detail of detaillist ">
-                  <td>{{detail.name}}</td>
+                  <td>{{detail.scenarioName}}</td>
                   <td>{{detail.scenarioDesc}}</td>
-                  <td>{{detail.relPath}}</td>
                   <td>{{detail.fileName}}</td>
-                  <td>{{detail.activeSW}}</td>
+                  <td>{{detail.scenarioParams}}</td>
+                  <td><input type ="checkbox"></td>
                 </tr> 
           </tbody><br>
       </table>
