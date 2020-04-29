@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 
 export class DetailService {
 
-  private baseUrl = '/api/';
+  private baseUrl = 'http://localhost:8080/api/';
 
   constructor(private http:HttpClient) { }
 
@@ -21,7 +21,11 @@ export class DetailService {
   }
 
   getDescriptionList(keywordsList: object[]): Observable<any> {
-    return this.http.post(`${this.baseUrl}`+'scenarious', keywordsList);
+    return this.http.post(`${this.baseUrl}`+'scenariousByKeyIds', keywordsList);
+  }
+
+  getDescriptionListByPattern(pattern: String): Observable<any> {
+    return this.http.post(`${this.baseUrl}`+'scenariousByKeyIdNamesLike', pattern);
   }
 
 }

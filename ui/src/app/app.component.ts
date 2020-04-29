@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
-import {FormControl} from '@angular/forms';
 import {DetailService } from './detail.service';
-import {SharedData} from './shared.data'
+import { Subject } from "rxjs";
+
 
 @Component({
   selector: 'app-root',
@@ -11,7 +11,16 @@ import {SharedData} from './shared.data'
 export class AppComponent {
   title = 'Home';
 
-  constructor(private detailService:DetailService, private sharedData: SharedData) { }
+  constructor(private detailService:DetailService) { }
+
+  detailArray: any[] = [];
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any>= new Subject();
+  deleteMessage=false;
+  detaillist:any;
+  isupdated = false;  
+  hideDetail = true;
+  pattern:any;
 
   dropdownSettings = {};
   items=[{id:1, title:'Categories', xpandStatus:false, dataList:[], selectedItems: new Map<string, Array<any>>()}];
@@ -31,9 +40,28 @@ export class AppComponent {
       })
     } else if(id==2 && this.items[1].selectedItems[2].length>0){
       this.isDisabled = false;
-      this.sharedData.data = this.items[1].selectedItems[2];
     }
   };
+  viewDetail = function() {
+    this.hideDetail = true 
+    if(this.pattern && this.pattern.length >0){
+      this.detailService.getDescriptionListByPattern(this.pattern)
+        .subscribe(
+          data => {
+            this.detaillist = data    
+            this.hideDetail = false       
+          },
+        error => console.log(error));
+    } else {
+      this.detailService.getDescriptionList(this.items[1].selectedItems[2])
+        .subscribe(
+          data => {
+            this.detaillist = data    
+            this.hideDetail = false       
+          },
+        error => console.log(error));
+    }
+  }
   ngOnInit(){
       this.items
       this.detailService.getCategories().subscribe(data =>{
@@ -41,12 +69,21 @@ export class AppComponent {
       })
 
       this.dropdownSettings = {
-                                  singleSelection: false,
-                                  text:"Select",
-                                  selectAllText:'Select All',
-                                  unSelectAllText:'UnSelect All',
-                                  enableSearchFilter: true,
-                                  classes:"myclass custom-class"
+          singleSelection: false,
+          text:"Select",
+          selectAllText:'Select All',
+          unSelectAllText:'UnSelect All',
+          enableSearchFilter: true,
+          classes:"myclass custom-class"
+      };
+
+      this.isupdated=false;
+      this.hideDetail = true;
+      this.dtOptions = {
+        pageLength: 6,
+        stateSave:true,
+        lengthMenu:[[6, 16, 20, -1], [6, 16, 20, "All"]],
+        processing: true
       };
     }
 

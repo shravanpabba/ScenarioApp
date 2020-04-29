@@ -29,12 +29,6 @@ public class Controller {
 	private KeyWordRepository keyWordRepository;
 
 	@Autowired
-	private ScenarioRepository scenarioRepository;
-
-	@Autowired
-	private ScenarioKeyWordRepository scenarioKeyWordRepository;
-
-	@Autowired
 	private JdbcRepository jdbcRepository;
 
 	@GetMapping("categoriesList")
@@ -51,12 +45,17 @@ public class Controller {
 		return keyWordRepository.findAllByCatidIn(catIds);
 	}
 
-	@PostMapping("scenarious")
-	public List<ScenarioModel> descriptionByKeyWords(@RequestBody List<Keyword> keywordList) {
+	@PostMapping("scenariousByKeyIds")
+	public List<ScenarioModel> descriptionByKeyWordsIds(@RequestBody List<Keyword> keywordList) {
 		List<Integer> keywordIdList = keywordList.stream().map(Keyword::getId).collect(Collectors.toList());
-		return jdbcRepository.getAllScenarios(keywordIdList);
+		return jdbcRepository.getAllScenarios(null,keywordIdList);
 
 	}
 
+	@PostMapping("scenariousByKeyIdNamesLike")
+	public List<ScenarioModel> descriptionByKeyWordsNameLike(@RequestBody String keywordPattren) {
+		return jdbcRepository.getAllScenarios(keywordPattren, null);
+
+	}
 
 }

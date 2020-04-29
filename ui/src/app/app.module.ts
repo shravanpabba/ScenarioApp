@@ -8,17 +8,17 @@ import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import {DataTablesModule} from 'angular-datatables';
-import { DetailListComponent } from './detail-list/detail-list.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    DetailListComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     MatExpansionModule,
+    NgxPaginationModule,
     AngularMultiSelectModule,
     AppRoutingModule,
     FormsModule,

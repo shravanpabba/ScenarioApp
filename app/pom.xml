@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.list.app</groupId>
-	<artifactId>ListApp</artifactId>
+	<artifactId>Scenario-App</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>ListApp</name>
 	<description>List App for Spring Boot</description>

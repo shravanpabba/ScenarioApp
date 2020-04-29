@@ -12,5 +12,7 @@ public interface KeyWordRepository extends CrudRepository<Keyword, Long> {
 	List<Keyword> findById(int id);
 
 	List<Keyword> findAllByCatidIn(List<Integer> catIds);
+	
+	List<Keyword> findAllByItemNameLike(String pattren);
 
 }
