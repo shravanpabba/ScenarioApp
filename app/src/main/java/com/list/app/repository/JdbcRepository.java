@@ -18,18 +18,24 @@ public class JdbcRepository {
 	private NamedParameterJdbcTemplate namedParameterjdbcTemplate;
 
 	public List<ScenarioModel> getAllScenarios(String pattern, List<Integer> keywordIds) {
-
+		System.out.print(pattern);
 		String sql = null;
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 
 		if (pattern != null) {
-			sql = "select  a.id as scenarioId ,a.SCENARIO_NAME as scenarioName,a.SCENARIO_DESC as scenarioDesc ,a.REL_PATH as relPath ,a.FILE_NAME as fileName,\n"
-					+ "(select LISTAGG(keyword_name, ' ; ')\n"
-					+ "WITHIN GROUP (ORDER BY keyword_name)  from Keyword where id in ( select keyword_id from SCENARIO_KEYWORD where scenario_id=a.id)) as scenarioParams\n"
-					+ "from scenarios a \n" + "where a.id in \n" + "(select scenario_id \n" + "from SCENARIO_KEYWORD \n"
-					+ "where keyword_id in(:keyIds) \n" + "group by scenario_id having count(scenario_id) =:count)";
+			sql = "select  a.id as scenarioId ,a.SCENARIO_NAME as scenarioName,\n" +
+					"a.SCENARIO_DESC as scenarioDesc ,a.REL_PATH as relPath ,\n" +
+					"a.FILE_NAME as fileName,\n" +
+					"(select LISTAGG(keyword_name, ' ; ')\n" +
+					"WITHIN GROUP (ORDER BY keyword_name)  from Keyword where id in ( select keyword_id from SCENARIO_KEYWORD where scenario_id=a.id)) as scenarioParams\n" +
+					"from scenarios a \n" +
+					"where a.id in \n" +
+					"(select scenario_id \n" +
+					"from SCENARIO_KEYWORD \n" +
+					"where keyword_id in( select id from KEYWORD where UPPER(KEYWORD_NAME) like :abc))";
 
-			parameters.addValue("pattern", keywordIds);
+			parameters.addValue("abc", "%"+pattern+"%");
+
 		} else {
 			sql = "select  a.id as scenarioId ,a.SCENARIO_NAME as scenarioName,a.SCENARIO_DESC as scenarioDesc ,a.REL_PATH as relPath ,a.FILE_NAME as fileName,\n"
 					+ "(select LISTAGG(keyword_name, ' ; ')\n"

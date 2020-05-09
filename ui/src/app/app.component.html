@@ -2,13 +2,13 @@
       <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
           <div class="md-form">
             <input mdbInput type="text" name="text" [(ngModel)]="pattern" (ngModelChange)="pattern.length>0 ? isDisabled=false : isDisabled=true" id="form1" class="form-control">
-            <label for="form1" class="" style="color:whitesmoke">Go With Pattren</label>
+            <label for="form1" class="" style="color:whitesmoke">Wildcard Search</label>
           </div>
-          <p style="align-self: center; color:wheat">[OR]</p>
+          <p style="align-self: center; color:wheat">Category Selection</p>
           <p *ngFor="let item of items; let in = index">
             <mat-expansion-panel [(expanded)]="item.xpandStatus">
               <mat-expansion-panel-header style="background-color: #f0f1ef;">
-                <mat-panel-title>{{item.title}} panel</mat-panel-title>
+                <mat-panel-title>{{item.title}}</mat-panel-title>
                 <!--<mat-panel-description>{{item.selectedItems}}</mat-panel-description>-->
               </mat-expansion-panel-header>
 
@@ -18,11 +18,11 @@
                   <div class="panel-body">
                     <div class="table-responsive">
                       <table class="table table-striped">
-                        <thead>
+                        <!-- <thead>
                           <tr>
                             <th>{{item.title}}</th>
                           </tr>
-                        </thead>
+                        </thead> -->
                         <tbody>
                           <tr>
                             <td>
@@ -52,7 +52,7 @@
        </nav>
        <div [hidden]="hideDetail" class="panel panel-default">
         <div class="panel-heading">
-            <h1 style="text-align: center">Details</h1><br>
+            <h1 style="text-align: center">Scenario Details</h1><br>
             <div class="row" [hidden]="!deleteMessage">
                  
                       <div class="col-sm-4"></div>
@@ -71,26 +71,31 @@
               [dtTrigger]="dtTrigger"  >
                   <thead class="thead-light">
                       <tr>
-                          <th>SCENARIO_NAME</th>
-                          <th>SCENARIO_DESC</th>
-                          <th>FILE_NAME</th>
-                          <th>SCENARIO_PARAMS</th>
                           <th>OPTIONS</th>
+                          <th>SCENARIO NAME</th>
+                          <th>DESCRIPTION</th>
+                          <th>NAME</th>
+                          <th>PARAMS</th>
                       </tr>
                   </thead>
-                  <tbody>
+                  <tbody *ngIf="detaillist!=null && detaillist.length>0">
                       <tr *ngFor="let detail of detaillist | paginate: { itemsPerPage: 10, currentPage: p }">
-                          <td>{{detail.scenarioName}}</td>
+                          <td ><input type ="checkbox" class="larger"></td>
+                          <td >{{detail.scenarioName}}</td>
                           <td>{{detail.scenarioDesc}}</td>
                           <td>{{detail.fileName}}</td>
                           <td>{{detail.scenarioParams}}</td>
-                          <td><input type ="checkbox"></td>
-                        </tr> 
-                  </tbody><br>
+                      </tr> 
+                  </tbody>
+                  <tbody *ngIf="detaillist==null || detaillist.length==0">
+                    <tr>
+                      <td>No Recards Found</td>
+                    </tr>
+                  </tbody>
+                  <br>
                   <pagination-controls (pageChange)="p = $event"></pagination-controls>
               </table>
           </div>
         </div>       
-
        <router-outlet></router-outlet>
     </div>
