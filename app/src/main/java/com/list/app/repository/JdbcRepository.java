@@ -18,7 +18,7 @@ public class JdbcRepository {
 	private NamedParameterJdbcTemplate namedParameterjdbcTemplate;
 
 	public List<ScenarioModel> getAllScenarios(String pattern, List<Integer> keywordIds) {
-		System.out.print(pattern);
+		
 		String sql = null;
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 
@@ -34,7 +34,7 @@ public class JdbcRepository {
 					"from SCENARIO_KEYWORD \n" +
 					"where keyword_id in( select id from KEYWORD where UPPER(KEYWORD_NAME) like :abc))";
 
-			parameters.addValue("abc", "%"+pattern+"%");
+			parameters.addValue("abc", "%"+pattern.toUpperCase()+"%");
 
 		} else {
 			sql = "select  a.id as scenarioId ,a.SCENARIO_NAME as scenarioName,a.SCENARIO_DESC as scenarioDesc ,a.REL_PATH as relPath ,a.FILE_NAME as fileName,\n"

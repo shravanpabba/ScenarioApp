@@ -28,4 +28,7 @@ export class DetailService {
     return this.http.post(`${this.baseUrl}`+'scenariousByKeyIdNamesLike', pattern);
   }
 
+  getGenerateXml(idList: object[]): Observable<any> {
+    return this.http.post(`${this.baseUrl}`+'generateXml', idList);
+  }
 }

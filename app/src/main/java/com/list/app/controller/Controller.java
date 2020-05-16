@@ -58,4 +58,11 @@ public class Controller {
 
 	}
 
+	@PostMapping("generateXml")
+	public String generateXml(@RequestBody List<Integer> idList) {
+		System.out.print(idList.toString());
+		return "OK";
+
+	}
+
 }

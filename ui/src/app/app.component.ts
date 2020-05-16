@@ -16,22 +16,33 @@ export class AppComponent {
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any>= new Subject();
   deleteMessage=false;
-  detaillist:any;
+  detaillist:any[] = [];
   isupdated = false;  
   hideDetail = true;
   pattern:any;
-
+  checkBoxList: any[] = [];
+  clickCheckBox = function(id){
+    this.checkBoxList.push(id)
+  }
+  checkEnable = function(){
+    if(this.pattern.length>0 || this.items[0].selectedItems[1].length>0 ){
+      this.isDisabled=false;
+    }else{
+      this.isDisabled=true;
+    }
+  }
   dropdownSettings = {};
   items=[{id:1, title:'Categories', xpandStatus:false, dataList:[], selectedItems: new Map<string, Array<any>>()}];
   isDisabled = true;
   displayLogic = function(id){
     if(this.items[0].selectedItems[1].length >0 && this.items.length==1){
       this.detailService.getKeywords(this.items[0].selectedItems[1]).subscribe(data =>{
-          this.items.push({id:2, title:'Items', xpandStatus:false, dataList:data, selectedItems: new Map<string, Array<any>>()});
+          this.items.push({id:2, title:'Keywords', xpandStatus:false, dataList:data, selectedItems: new Map<string, Array<any>>()});
       })
     } else if(this.items[0].selectedItems[1].length==0 && this.items.length==2){
       this.items.pop();
-      this.isDisabled = true;
+      // this.isDisabled = true;
+      this.checkEnable();
     } else if( id==1 && this.items.length==2 ){
       this.items[1].selectedItems = new Map<string, Array<any>>();
       this.detailService.getKeywords(this.items[0].selectedItems[1]).subscribe(data =>{
@@ -42,6 +53,11 @@ export class AppComponent {
     }
   };
   viewDetail = function() {
+    this.checkBoxList=[];
+      if(this.pattern && this.pattern.length>0 && this.items[1] && this.items[1].selectedItems[2] && this.items[1].selectedItems[2].length>0)
+      {
+       window.alert("Since you have selected both options so wild search is prioritised");
+      }
     this.hideDetail = true 
     if(this.pattern && this.pattern.length >0){
       this.detailService.getDescriptionListByPattern(this.pattern)
@@ -61,6 +77,16 @@ export class AppComponent {
         error => console.log(error));
     }
   }
+
+  generateXml = function() {
+    this.detailService.getGenerateXml(this.checkBoxList)
+      .subscribe(
+        data => {
+         console.log(data);      
+        },
+      error => console.log(error));
+  
+}
   ngOnInit(){
       this.items
       this.detailService.getCategories().subscribe(data =>{

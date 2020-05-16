@@ -1,7 +1,7 @@
     <div  class="container-fluid">
       <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
           <div class="md-form">
-            <input mdbInput type="text" name="text" [(ngModel)]="pattern" (ngModelChange)="pattern.length>0 ? isDisabled=false : isDisabled=true" id="form1" class="form-control">
+            <input mdbInput type="text" name="text" [(ngModel)]="pattern" (ngModelChange)="checkEnable()" id="form1" class="form-control">
             <label for="form1" class="" style="color:whitesmoke">Wildcard Search</label>
           </div>
           <p style="align-self: center; color:wheat">Category Selection</p>
@@ -53,6 +53,8 @@
        <div [hidden]="hideDetail" class="panel panel-default">
         <div class="panel-heading">
             <h1 style="text-align: center">Scenario Details</h1><br>
+            <p style="text-align: left"><a [routerLink]="" (click)="generateXml()" [class.disabled]="checkBoxList.length == 0" class="nav-link"  class="btn btn-primary active" role="button" >Generate Suite XML</a></p>
+            <p style="text-align: right">search result:{{detaillist.length}} records found.</p><br>
             <div class="row" [hidden]="!deleteMessage">
                  
                       <div class="col-sm-4"></div>
@@ -78,22 +80,22 @@
                           <th>PARAMS</th>
                       </tr>
                   </thead>
-                  <tbody *ngIf="detaillist!=null && detaillist.length>0">
+                  <tbody *ngIf="detaillist != null && detaillist.length>=0">
                       <tr *ngFor="let detail of detaillist | paginate: { itemsPerPage: 10, currentPage: p }">
-                          <td ><input type ="checkbox" class="larger"></td>
+                          <td ><input type ="checkbox" (click)="clickCheckBox(detail.scenarioId)" class="larger"></td>
                           <td >{{detail.scenarioName}}</td>
                           <td>{{detail.scenarioDesc}}</td>
                           <td>{{detail.fileName}}</td>
                           <td>{{detail.scenarioParams}}</td>
                       </tr> 
                   </tbody>
-                  <tbody *ngIf="detaillist==null || detaillist.length==0">
+                  <tbody *ngIf="detaillist == null || detaillist.length == 0">
                     <tr>
-                      <td ></td>
-                      <td ></td>
-                      <td><p style="color:red">No Records Found.</p></td>
+                       <td ></td>
+                      <td ></td> 
+                      <td><p style="text-align: center;color: red;">No Records Found.</p></td>
                       <td></td>
-                      <td></td>
+                      <td></td> 
                     </tr>
                   </tbody>
                   <br>
